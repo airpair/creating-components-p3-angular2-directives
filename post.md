@@ -218,13 +218,25 @@ To "annotate" in ES6, we simply set a static property on the `OtSite` class we j
 
 
 ```javascript
+class OtSite() {
+  constructor () {
+  }
+  // public methods here
+}
+
 OtSite.annotations = [];
 
 ```
 
-Angular will expect the first index to contain configurations for the directive.  
+So what do we put in here?  First, let's add the meta-data for the directive specifically.  This is where we indicate that we are creating a component directive, and we pass in the selector that Angular can use to identify it. 
 
 ```javascript
+class OtSite() {
+  constructor () {
+  }
+  // public methods here
+}
+
 OtSite.annotations = [
   new Component({
     selector: "ot-site"
@@ -232,24 +244,9 @@ OtSite.annotations = [
 ];
 
 ```
-This is where we indicate that we are creating a component directive, and we pass in the selector that Angular can use to identify it.  You’ll notice that we no longer are using a normalized directive name like "otSite" or the `restrict` property to register the directive. We can just use a CSS selector.
+ You’ll notice that we no longer are using a normalized directive name like "otSite" or the `restrict` property to register the directive. We can just use a CSS selector.
 
 Next, we can add any template configurations:
-
-```javascript
-OtSite.annotations = [
-  new Component({
-    selector: "ot-site"
-  }),
-  new Template({
-    url: "ot-site.html"
-  })
-];
-
-```
-
-At this point, we've added all the meta-data required to make our component work.  Our full definition looks like this:
-
 
 ```javascript
 class OtSite() {
@@ -269,9 +266,11 @@ OtSite.annotations = [
 
 ```
 
+It's hard to believe, but at this point, we've added all the code required to make our component work.  That's all you need to make a fully functional container component!
+
 ## Converting to TypeScript
 
-Our code is fully functional and the component will work.   But we can make it even cleaner.  If we were to convert this to TypeScript, we get even more syntactic sugar.  
+ But we can make it even cleaner.  If we were to convert this to TypeScript, we get even more syntactic sugar.  
 
 
 The new version of TypeScript has annotations built in, so we don't have to manually define an annotations property at all. Instead, we can simply annotate using the @ shorthand...
@@ -296,7 +295,7 @@ class OtSite() {
 
 You'll also notice that we moved the meta-data up to the top of the definition.  This is ideal because it prevents you from having to scroll through all your class code just to see a component's selector or associated template.  
 
-And that’s it! With just those lines, we've re-created `ot-site`.
+And **that’s it**! With just those lines, we've re-created `ot-site`.
 
 So given the following component user markup:
 
@@ -321,9 +320,7 @@ We can reach the expected output:
 
 ## Conclusion
 
-I hope this conversion proved useful to you!  Angular 2 clearly has a lot to offer - what took lines and lines of custom code in Angular 1.x is now incredibly simple.  
-
-For further reading on Angular 2, see [Angular's new website](https://angular.io/) and the [current Github repo](https://github.com/angular/angular/tree/master/modules/angular2).  
+Angular 2 clearly has a lot to offer - what took lines and lines of custom code in Angular 1.x is now incredibly simple.   For further reading on Angular 2, see [Angular's new website](https://angular.io/) and the [current Github repo](https://github.com/angular/angular/tree/master/modules/angular2).  
 
 Happy coding!
 
