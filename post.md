@@ -2,9 +2,9 @@ Welcome to Part 3 of our 3-part series on content container components!
 
 In this tutorial, we will be converting the Angular 1.3 directive from [Part 2](https://www.airpair.com/angularjs/posts/creating-container-components-part-2-angular-1-directives) into an Angular 2.0 component directive.  As such, if you are just joining in, you will probably want to visit:
 
-*  [Part 1](https://www.airpair.com/javascript/posts/creating-container-components-part-1-shadow-dom) by [@morewry](https://twitter.com/morewry) for an introduction to the `ot-site` component and background on the Shadow DOM.
+*  [Part 1](https://www.airpair.com/javascript/posts/creating-container-components-part-1-shadow-dom) by [Rachael L Moore](https://twitter.com/morewry) for an introduction to the `ot-site` [component and the Shadow DOM](https://www.airpair.com/javascript/posts/creating-container-components-part-1-shadow-dom).
 
-*  [Part 2](https://www.airpair.com/angularjs/posts/creating-container-components-part-2-angular-1-directives) for information about directives and advanced transclusion.
+*  [Part 2](https://www.airpair.com/angularjs/posts/creating-container-components-part-2-angular-1-directives) for information about [directives and advanced transclusion](https://www.airpair.com/angularjs/posts/creating-container-components-part-2-angular-1-directives).
 
 Let's get started!
 
@@ -14,13 +14,12 @@ In [Part 2](https://www.airpair.com/angularjs/posts/creating-container-component
 
 ![Empty ot-site container](https://8604d17a51d354cba084d27f632b78fe46e70205.googledrive.com/host/0Bws_6WaNR1DWelh6X1hLcTlBR1E/otsite-empty.png)
 
-As a consistent layout for all OpenTable micro-apps, it had to allow multiple insertion points for custom user content (in the header, menu, and the body). 
+As a layout scaffold for all OpenTable micro-apps, it has to allow multiple insertion points for custom user content (in the head, menu, and the body). 
 
-Acheiving that wasn't easy.  We had to build custom transclusion functionality from scratch and match elements from the user's template to our directive template completely manually.  This required in-depth knowledge of several concepts in Angular: transclusion, the directive lifecycle, and the way scopes interact, to name a few.  Our final implementation (before refactoring into a service) looked like this:
+Achieving that in Part 2 wasn't easy.  We had to build custom transclusion functionality from scratch and match elements from the user's template to our directive template completely manually.  This required in-depth knowledge of several concepts in Angular: transclusion, the directive lifecycle, and the way scopes interact, to name a few.  Our final implementation (before refactoring into a service) looked like this:
 
 ```javascript
 angular.module("ot-components")
-
 .directive("otSite", function() {
   return {
     scope: {},
@@ -57,31 +56,36 @@ Pretty bulky, right?  Clearly, a lot of custom configuration was required to get
 
 ## From Angular 1 to Angular 2
 
-Implementing the same functionality in Angular 2 looks *considerably better* -- far cleaner and easier to understand -- because Angular 2 leverages the power of web components.   And as you saw earlier in [Part 1](https://www.airpair.com/javascript/posts/creating-container-components-part-1-shadow-dom), web components can be pretty powerful.  
+Implementing the same functionality in Angular 2 looks *considerably better*—far cleaner and easier to understand—because Angular 2 leverages the power of web components. And, as you saw in [Part 1 with the Shadow DOM](https://www.airpair.com/javascript/posts/creating-container-components-part-1-shadow-dom), web components can be pretty powerful.
 
 We'll be using an Angular 2 directive type called a 
-**component directive**.  Component directives combine the best of both worlds: web component standards and the advantages of Angular - bindings, DI, and so on. 
+**component directive**.  Component directives combine the best of both worlds: web component standards and the advantages of Angular—bindings, DI, and so on. 
 
-To convert our directive into an Angular 2 component directive, we need to re-wire three key things: how we're inserting custom content, how we're defining scope, and how we're registering our directive. 
+To convert our directive into an Angular 2 component directive, we need to re-wire three key things: 
+
+- how we're inserting custom content, 
+
+- how we're defining scope, 
+
+- and how we're registering our directive. 
 
 
 ![Differences between Angular 1.3 and Angular 2.0](https://8604d17a51d354cba084d27f632b78fe46e70205.googledrive.com/host/0Bws_6WaNR1DWelh6X1hLcTlBR1E/Screen%20Shot%202015-03-22%20at%2012.24.49%20PM.png)
 
 
-### Transclusion --> Shadow DOM
+### Transclusion &rarr; Shadow DOM
 
 First thing to nuke in our old directive: transclusion. 
 
-In Angular 2, the concept of transclusion is simply no longer necessary.  Because component directives are built on top of web components, we can simply take advantage of the built-in web component functionality instead -- `content` tags.
+In Angular 2, the concept of transclusion is simply no longer necessary.  Because component directives are built on top of web components, we can simply take advantage of the built-in web component functionality instead—`content` tags.
 
-If we use `content` tags with `select` attributes to filter the user-provided template, our directive already has all that it needs natively to handle multiple insertion points.  All of that custom transclusion code in the `link` function -- as well as our `transclude-id` attributes -- can be deleted.
+If we use `content` tags with `select` attributes to filter the user-provided template, our directive already has all that it needs natively to handle multiple insertion points.  All of that custom transclusion code in the `link` function—as well as our `transclude-id` attributes—can be deleted.
 
 If we remove all the old transclusion code (`transclude: true` and the `link` function) and add in `content` tags, our new directive definition looks like this:
 
 
 ```javascript
 angular.module("ot-components")
-
 .directive("otSite", function() {
   return {
     scope: {},
@@ -108,7 +112,7 @@ angular.module("ot-components")
 Already getting much slimmer!
 
 
-### Manual Scope --> Sensible Default Contexts
+### Manual Scope &rarr; Sensible Default Contexts
 
 The second thing that's changing in Angular 2 is how we think about execution context. In order to make our directive work in Angular 1.3, we had to fully understand transcluding scopes and isolate scopes, and how to ensure they interact harmoniously (especially when it comes to components nested within components).
 
@@ -118,14 +122,13 @@ Ultimately, you end up making scope diagrams like the one below, just to keep it
 
 *Design credit: Simon Attley*
 
-In contrast, Angular 2 provides some sensible defaults depending on which type of directive you’ve declared, which reduces much of that uncertainty.  If you are writing a component directive, it will have a completely isolated execution context by default.  You don’t have to set it yourself or even understand the scope hierarchy.  Additionally, if you elect to use `content` tags to allow user-provided templates- your bindings will still work as expected. 
+In contrast, Angular 2 provides some sensible defaults depending on which type of directive you’ve declared, which reduces much of that uncertainty.  If you are writing a component directive, it will have a completely isolated execution context by default.  You don’t have to set it yourself or even understand the scope hierarchy.  Additionally, if you elect to use `content` tags to allow user-provided templates your bindings will still work as expected. 
 
 This means we can also remove that `scope:{}` line from our directive definition:
 
 
 ```javascript
 angular.module("ot-components")
-
 .directive("otSite", function() {
   return {
     template: `
@@ -151,7 +154,7 @@ angular.module("ot-components")
 Which leaves us with only two pieces of configuration to create this complex directive: the name of the directive and the template itself. Pretty cool!
 
 
-### One DDO --> Class & Annotations
+### One DDO &rarr; Class & Annotations
 
 The last thing we need to do to convert our directive to Angular is to update the registration syntax.
 
@@ -169,9 +172,17 @@ angular.module("ot-components")
 });
 ```
 
-We have to call a `directive` function -- to which we pass a factory function -- which returns an object -- that contains everything we ever want associated with the directive -- templates, callback functions, configurations, etc etc.  
+We have to...
 
-Instead of this one large config, Angular 2 provides a simpler interface for component authors -- splitting the definition out into two logical parts: the component class and its meta-data annotations.
+- call a `directive` function
+
+- to which we pass a factory function
+
+- which returns an object
+
+...that contains everything we ever want associated with the directive—templates, callback functions, configurations, etc.  
+
+Instead of this one large config, Angular 2 provides a simpler interface for component authors, splitting the definition out into two logical parts: the component class and its meta-data annotations.
 
 ** Component Class **
 
@@ -210,9 +221,9 @@ What we do need is to record our two pieces of meta-data: the name of the direct
 
 ** Meta-data annotations **
 
-So, what the heck are annotations?  The short answer is that annotations serve to succinctly communicate the intent of the associated class - what is it and what does it need?  In our case, we want to define that our class represents a component directive named "ot-site" and that it needs the "ot-site.html" template.
+So, what the heck are annotations?  The short answer is that annotations serve to succinctly communicate the intent of the associated class—what is it and what does it need?  In our case, we want to define that our class represents a component directive named "ot-site" and that it needs the "ot-site.html" template.
 
-Annotations are often thought of as the scary new part of Angular 2 directive syntax because they don't seem to fit naturally with anything in Angular 1.x.  But they're really nothing new - they are simply Angular 2's way of separating meta-data -- like your directive's name, its type, its associated dependencies and templates etc -- out from the business logic of the component.  We had most of this information previously - it was just buried in the complex DDO.
+Annotations are often thought of as the scary new part of Angular 2 directive syntax because they don't seem to fit naturally with anything in Angular 1.x.  But they're really nothing new—they are simply Angular 2's way of separating meta-data—like your directive's name, its type, its associated dependencies and templates etc—out from the business logic of the component.  We had most of this information previously—it was just buried in the complex DDO.
 
 To "annotate" in ES6, we simply set a static property on the `OtSite` class we just created and call it "annotations", and Angular will pick it up.
 
@@ -270,10 +281,10 @@ It's hard to believe, but at this point, we've added all the code required to ma
 
 ## Converting to TypeScript
 
- But we can make it even cleaner.  If we were to convert this to TypeScript, we get even more syntactic sugar.  
+ But we can make it even cleaner.  If we were to convert this to TypeScript, we get extra syntactic sugar.  
 
 
-The new version of TypeScript has annotations built in, so we don't have to manually define an annotations property at all. Instead, we can simply annotate using the @ shorthand...
+The new version of TypeScript has annotations built in, so we don't have to manually define an annotations property at all. Instead, we can simply annotate using the `@` shorthand...
 
 
 ```javascript
@@ -320,7 +331,7 @@ We can reach the expected output:
 
 ## Conclusion
 
-Angular 2 clearly has a lot to offer - what took lines and lines of custom code in Angular 1.x is now incredibly simple.   For further reading on Angular 2, see [Angular's new website](https://angular.io/) and the [current Github repo](https://github.com/angular/angular/tree/master/modules/angular2).  
+Angular 2 clearly has a lot to offer—what took lines and lines of custom code in Angular 1.x is now incredibly simple.   For further reading on Angular 2, see [Angular's new website](https://angular.io/) and the [current Github repo](https://github.com/angular/angular/tree/master/modules/angular2).  
 
 Happy coding!
 
