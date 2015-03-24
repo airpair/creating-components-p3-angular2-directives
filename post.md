@@ -16,7 +16,7 @@ In [Part 2](https://www.airpair.com/angularjs/posts/creating-container-component
 
 As a consistent layout for all OpenTable micro-apps, it had to allow multiple insertion points for custom user content (in the header, menu, and the body). 
 
-Acheiving that wasn't easy.  We had to build custom transclusion functionality from scratch and match elements from the user's template to our directive template completely manually.  This required in-depth knowledge of several concepts in Angular: transclusion, the directive lifecycle, and the way scopes interact, to name a few.  Our final implementation (before refactoring into a service) looked like this:
+Achieving that wasn't easy.  We had to build custom transclusion functionality from scratch and match elements from the user's template to our directive template completely manually.  This required in-depth knowledge of several concepts in Angular: transclusion, the directive lifecycle, and the way scopes interact, to name a few.  Our final implementation (before refactoring into a service) looked like this:
 
 ```javascript
 angular.module("ot-components")
