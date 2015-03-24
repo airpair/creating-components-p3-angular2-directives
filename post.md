@@ -2,7 +2,7 @@ Welcome to Part 3 of our 3-part series on content container components!
 
 In this tutorial, we will be converting the Angular 1.3 directive from [Part 2](https://www.airpair.com/angularjs/posts/creating-container-components-part-2-angular-1-directives) into an Angular 2.0 component directive.  As such, if you are just joining in, you will probably want to visit:
 
-*  [Part 1](https://www.airpair.com/javascript/posts/creating-container-components-part-1-shadow-dom) by [@morewry](https://twitter.com/morewry) for an introduction to the `ot-site` component and background on the Shadow DOM.
+*  [Part 1](https://www.airpair.com/javascript/posts/creating-container-components-part-1-shadow-dom) by [Rachael L Moore](https://twitter.com/morewry) for an introduction to the `ot-site` component and background on the Shadow DOM.
 
 *  [Part 2](https://www.airpair.com/angularjs/posts/creating-container-components-part-2-angular-1-directives) for information about directives and advanced transclusion.
 
@@ -68,7 +68,7 @@ To convert our directive into an Angular 2 component directive, we need to re-wi
 ![Differences between Angular 1.3 and Angular 2.0](https://8604d17a51d354cba084d27f632b78fe46e70205.googledrive.com/host/0Bws_6WaNR1DWelh6X1hLcTlBR1E/Screen%20Shot%202015-03-22%20at%2012.24.49%20PM.png)
 
 
-### Transclusion --> Shadow DOM
+### Transclusion &rarr; Shadow DOM
 
 First thing to nuke in our old directive: transclusion. 
 
@@ -108,7 +108,7 @@ angular.module("ot-components")
 Already getting much slimmer!
 
 
-### Manual Scope --> Sensible Default Contexts
+### Manual Scope &rarr; Sensible Default Contexts
 
 The second thing that's changing in Angular 2 is how we think about execution context. In order to make our directive work in Angular 1.3, we had to fully understand transcluding scopes and isolate scopes, and how to ensure they interact harmoniously (especially when it comes to components nested within components).
 
@@ -151,7 +151,7 @@ angular.module("ot-components")
 Which leaves us with only two pieces of configuration to create this complex directive: the name of the directive and the template itself. Pretty cool!
 
 
-### One DDO --> Class & Annotations
+### One DDO &rarr; Class & Annotations
 
 The last thing we need to do to convert our directive to Angular is to update the registration syntax.
 
