@@ -320,7 +320,11 @@ We can reach the expected output:
 
 ## Conclusion
 
-Angular 2 clearly has a lot to offer - what took lines and lines of custom code in Angular 1.x is now incredibly simple.   For further reading on Angular 2, see [Angular's new website](https://angular.io/) and the [current Github repo](https://github.com/angular/angular/tree/master/modules/angular2).  
+Angular 2 clearly has a lot to offer - what took lines and lines of custom code in Angular 1.x is now incredibly simple.  
+
+See a working example of the code on Github [here](https://github.com/kara/angular2-ot-site).
+
+For further reading on Angular 2, see [Angular's new website](https://angular.io/) and the [current Github repo](https://github.com/angular/angular/tree/master/modules/angular2).  
 
 Happy coding!
 
