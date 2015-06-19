@@ -1,5 +1,3 @@
---Last updated:  June 19, 2015--
-
 Welcome to Part 3 of our 3-part series on content container components!
 
 In this tutorial, we will be converting the Angular 1.3 directive from [Part 2](https://www.airpair.com/angularjs/posts/creating-container-components-part-2-angular-1-directives) into an Angular 2 component.  As such, if you are just joining in, you will probably want to visit:
@@ -63,7 +61,7 @@ Implementing the same functionality in Angular 2 looks *considerably better* -- 
 
 To recreate our 1.3 directive, we'll be building an Angular 2 **component**.  Angular 2 components combine the best of both worlds: web component standards and the advantages of Angular - bindings, DI, and so on. 
 
-To convert our directive to Angular 2, we need to re-wire three key things: how we're inserting custom content, how we're defining scope, and how we're registering our directive. 
+We will need to re-wire three key things: how we're inserting custom content, how we're defining scope, and how we're registering our directive. 
 
 
 ![Differences between Angular 1.3 and Angular 2.0](https://8604d17a51d354cba084d27f632b78fe46e70205.googledrive.com/host/0Bws_6WaNR1DWelh6X1hLcTlBR1E/Screen%20Shot%202015-03-22%20at%2012.24.49%20PM.png)
@@ -274,7 +272,9 @@ It's hard to believe, but at this point, we've added all the code required to ma
  But we can make it even cleaner.  If we were to convert this to TypeScript, we get even more syntactic sugar.  
 
 
-The new version of TypeScript has decorators built in, so we don't have to manually define an annotations property at all. Instead, we can simply annotate using the @ decorator shorthand...
+The new version of TypeScript has decorators built in, so we don't have to manually define an annotations property at all. Instead, we can simply decorate our component class with annotations using the @ decorator shorthand*.
+
+* If you'd like more information about the difference between decorators and annotations, I'd recommend [Pascal Precht's blog post here](http://blog.thoughtram.io/angular/2015/05/03/the-difference-between-annotations-and-decorators.html).
 
 
 ```javascript
@@ -292,7 +292,6 @@ class OtSite() {
   // public methods here
 }
 ```
-
 
 You'll also notice that we moved the meta-data up to the top of the definition.  This is ideal because it prevents you from having to scroll through all your class code just to see a component's selector or associated template.  
 
