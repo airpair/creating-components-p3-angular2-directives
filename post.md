@@ -1,6 +1,8 @@
+--Last updated:  June 19, 2015--
+
 Welcome to Part 3 of our 3-part series on content container components!
 
-In this tutorial, we will be converting the Angular 1.3 directive from [Part 2](https://www.airpair.com/angularjs/posts/creating-container-components-part-2-angular-1-directives) into an Angular 2.0 component directive.  As such, if you are just joining in, you will probably want to visit:
+In this tutorial, we will be converting the Angular 1.3 directive from [Part 2](https://www.airpair.com/angularjs/posts/creating-container-components-part-2-angular-1-directives) into an Angular 2 component.  As such, if you are just joining in, you will probably want to visit:
 
 *  [Part 1](https://www.airpair.com/javascript/posts/creating-container-components-part-1-shadow-dom) by [Rachael L Moore](https://twitter.com/morewry) for an introduction to the `ot-site` component and background on the Shadow DOM.
 
@@ -59,10 +61,9 @@ Pretty bulky, right?  Clearly, a lot of custom configuration was required to get
 
 Implementing the same functionality in Angular 2 looks *considerably better* -- far cleaner and easier to understand -- because Angular 2 leverages the power of web components.   And as you saw earlier in [Part 1](https://www.airpair.com/javascript/posts/creating-container-components-part-1-shadow-dom), web components can be pretty powerful.  
 
-We'll be using an Angular 2 directive type called a 
-**component directive**.  Component directives combine the best of both worlds: web component standards and the advantages of Angular - bindings, DI, and so on. 
+To recreate our 1.3 directive, we'll be building an Angular 2 **component**.  Angular 2 components combine the best of both worlds: web component standards and the advantages of Angular - bindings, DI, and so on. 
 
-To convert our directive into an Angular 2 component directive, we need to re-wire three key things: how we're inserting custom content, how we're defining scope, and how we're registering our directive. 
+To convert our directive to Angular 2, we need to re-wire three key things: how we're inserting custom content, how we're defining scope, and how we're registering our directive. 
 
 
 ![Differences between Angular 1.3 and Angular 2.0](https://8604d17a51d354cba084d27f632b78fe46e70205.googledrive.com/host/0Bws_6WaNR1DWelh6X1hLcTlBR1E/Screen%20Shot%202015-03-22%20at%2012.24.49%20PM.png)
@@ -118,7 +119,7 @@ Ultimately, you end up making scope diagrams like the one below, just to keep it
 
 *Design credit: Simon Attley*
 
-In contrast, Angular 2 provides some sensible defaults depending on which type of directive you’ve declared, which reduces much of that uncertainty.  If you are writing a component directive, it will have a completely isolated execution context by default.  You don’t have to set it yourself or even understand the scope hierarchy.  Additionally, if you elect to use `content` tags to allow user-provided templates- your bindings will still work as expected. 
+In contrast, Angular 2 provides some sensible defaults depending on which type of directive you’ve declared, which reduces much of that uncertainty.  Components have a completely isolated execution context by default.  You don’t have to set it yourself or even understand the scope hierarchy.  Additionally, if you elect to use `content` tags to allow user-provided templates- your bindings will still work as expected. 
 
 This means we can also remove that `scope:{}` line from our directive definition:
 
@@ -228,7 +229,7 @@ OtSite.annotations = [];
 
 ```
 
-So what do we put in here?  First, let's add the meta-data for the directive specifically.  This is where we indicate that we are creating a component directive, and we pass in the selector that Angular can use to identify it. 
+So what do we put in here?  First, let's add the meta-data for the directive specifically.  This is where we indicate that we are creating a component, and we pass in the selector that Angular can use to identify it. 
 
 ```javascript
 class OtSite() {
@@ -246,7 +247,7 @@ OtSite.annotations = [
 ```
  You’ll notice that we no longer are using a normalized directive name like "otSite" or the `restrict` property to register the directive. We can just use a CSS selector.
 
-Next, we can add any template configurations:
+Next, we can add any view configurations:
 
 ```javascript
 class OtSite() {
@@ -259,8 +260,8 @@ OtSite.annotations = [
   new Component({
     selector: "ot-site"
   }),
-  new Template({
-    url: "ot-site.html"
+  new View({
+    templateUrl: "ot-site.html"
   })
 ];
 
@@ -273,15 +274,15 @@ It's hard to believe, but at this point, we've added all the code required to ma
  But we can make it even cleaner.  If we were to convert this to TypeScript, we get even more syntactic sugar.  
 
 
-The new version of TypeScript has annotations built in, so we don't have to manually define an annotations property at all. Instead, we can simply annotate using the @ shorthand...
+The new version of TypeScript has decorators built in, so we don't have to manually define an annotations property at all. Instead, we can simply annotate using the @ decorator shorthand...
 
 
 ```javascript
 @Component({
   selector: "ot-site"
 })
-@Template({
-  url: "ot-site.html"
+@View({
+  templateUrl: "ot-site.html"
 })
 
 class OtSite() {
