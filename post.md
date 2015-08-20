@@ -182,9 +182,9 @@ If you're using ES5, you can simply use a constructor function for this definiti
 function OtSite() {
 };
  
-OtSite.prototype = {
-  // public methods here
-};
+/* public methods here
+OtSite.prototype.someFunction = function() {...};
+*/
 
 ```
 
