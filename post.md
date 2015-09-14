@@ -75,7 +75,9 @@ In Angular 2, the concept of transclusion is simply no longer necessary.  Becaus
 
 If we use `content` tags with `select` attributes to filter the user-provided template, our directive already has all that it needs natively to handle multiple insertion points.  All of that custom transclusion code in the `link` function -- as well as our `transclude-id` attributes -- can be deleted.
 
-If we remove all the old transclusion code (`transclude: true` and the `link` function) and add in `content` tags, our new directive definition looks like this:
+While we wait for broader web component support, we also have the option of using the Angular emulation of content insertion - `ng-content` tags.  Like regular `content` tags, they accept a `select` attribute to filter the distributed nodes.
+
+If we remove all the old transclusion code (`transclude: true` and the `link` function) and add in `ng-content` tags, our new directive definition looks like this:
 
 
 ```javascript
@@ -88,13 +90,13 @@ angular.module("ot-components")
       <div id="site">													
         <header>	
           <svg id="logo"></svg>
-          <content select="[head]"></content>
+          <ng-content select="[head]"></ng-content>
         </header>					
         <nav>
-          <content select="[menu]"></content>
+          <ng-content select="[menu]"></ng-content>
         </nav> 								
         <main>
-          <content select="[body]"></content>
+          <ng-content select="[body]"></ng-content>
         </main>								
         <footer>					
           © 2015 OpenTable, Inc.
@@ -131,13 +133,13 @@ angular.module("ot-components")
       <div id="site">													
         <header>	
           <svg id="logo"></svg>
-          <content select="[head]"></content>
+          <ng-content select="[head]"></ng-content>
         </header>					
         <nav>
-          <content select="[menu]"></content>
+          <ng-content select="[menu]"></ng-content>
         </nav> 								
         <main>
-          <content select="[body]"></content>
+          <ng-content select="[body]"></ng-content>
         </main>								
         <footer>					
           © 2015 OpenTable, Inc.
